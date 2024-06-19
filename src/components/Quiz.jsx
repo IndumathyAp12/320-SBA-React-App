@@ -11,10 +11,15 @@ const Quiz = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    fetchQuizQuestions();
+  }, []);
+
+  const fetchQuizQuestions = () => {
+    setLoading(true);
     axios.get('https://restcountries.com/v3.1/all?fields=name,capital,currencies')
       .then(response => {
         const countriesData = response.data;
-        const shuffledCountries = shuffleArray(countriesData).slice(0, 10); // Limit to 10 questions
+        const shuffledCountries = shuffleArray(countriesData).slice(0, 10); 
         const questions = shuffledCountries.map(country => ({
           ...country,
           options: shuffleArray([country.capital, ...getRandomCapitals(countriesData, country.capital)]).slice(0, 4)
@@ -26,7 +31,7 @@ const Quiz = () => {
         console.error('Error fetching data:', error);
         setLoading(false);
       });
-  }, []);
+  };
 
   const shuffleArray = (array) => {
     return array.sort(() => Math.random() - 0.5);
@@ -52,6 +57,13 @@ const Quiz = () => {
     }
   };
 
+  const handleRestart = () => {
+    setScore(0);
+    setCurrentQuestionIndex(0);
+    setShowResult(false);
+    fetchQuizQuestions();
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -63,7 +75,10 @@ const Quiz = () => {
   return (
     <div>
       {showResult ? (
-        <Result score={score} totalQuestions={quizQuestions.length} />
+        <div>
+          <Result score={score} totalQuestions={quizQuestions.length} />
+          <button onClick={handleRestart}>Restart Quiz</button>
+        </div>
       ) : (
         <div>
           <h3>Question {currentQuestionIndex + 1} of {quizQuestions.length}</h3>
