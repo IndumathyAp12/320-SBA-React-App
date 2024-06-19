@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 
-const Question = ({ country, options, onAnswer }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState('');
+const Question = ({ country, options, onAnswer, showNextQuestion }) => {
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [showFeedback, setShowFeedback] = useState(false);
 
-  const handleButtonClick = (option) => {
-    setSelectedAnswer(option);
-    const isCorrect = option === country.capital;
-    onAnswer(isCorrect);
+  const handleOptionClick = (option) => {
+    if (!showFeedback) {
+      setSelectedOption(option);
+      setShowFeedback(true);
+      const isCorrect = option === country.capital;
+      onAnswer(isCorrect);
+      setTimeout(showNextQuestion, 2000); 
+    }
   };
 
   return (
@@ -16,8 +21,8 @@ const Question = ({ country, options, onAnswer }) => {
         {options.map((option, index) => (
           <button
             key={index}
-            onClick={() => handleButtonClick(option)}
-            className={`option-button ${selectedAnswer === option ? 'selected' : ''}`}
+            className={`option-button ${showFeedback && option === country.capital ? 'correct' : ''} ${showFeedback && option === selectedOption && option !== country.capital ? 'wrong' : ''}`}
+            onClick={() => handleOptionClick(option)}
           >
             {option}
           </button>

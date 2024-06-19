@@ -49,12 +49,15 @@ const Quiz = () => {
       setScore(score + 1);
     }
 
-    const nextQuestionIndex = currentQuestionIndex + 1;
-    if (nextQuestionIndex < quizQuestions.length) {
-      setCurrentQuestionIndex(nextQuestionIndex);
-    } else {
-      setShowResult(true);
-    }
+    // Move to the next question or show result if last question
+    setTimeout(() => {
+      const nextQuestionIndex = currentQuestionIndex + 1;
+      if (nextQuestionIndex < quizQuestions.length) {
+        setCurrentQuestionIndex(nextQuestionIndex);
+      } else {
+        setShowResult(true);
+      }
+    }, 2000); 
   };
 
   const handleRestart = () => {
@@ -82,11 +85,14 @@ const Quiz = () => {
       ) : (
         <div>
           <h3>Question {currentQuestionIndex + 1} of {quizQuestions.length}</h3>
-          <Question
-            country={quizQuestions[currentQuestionIndex]}
-            options={quizQuestions[currentQuestionIndex].options}
-            onAnswer={handleAnswer}
-          />
+          {currentQuestionIndex < quizQuestions.length && (
+            <Question
+              key={currentQuestionIndex}
+              country={quizQuestions[currentQuestionIndex]}
+              options={quizQuestions[currentQuestionIndex].options}
+              onAnswer={handleAnswer}
+            />
+          )}
         </div>
       )}
     </div>

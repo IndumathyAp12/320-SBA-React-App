@@ -31,9 +31,15 @@
     color: white;
   }
   
-  .option-button.selected {
-    background-color: #61dafb;
-    border-color: #21a1f1;
+  .option-button.correct {
+    background-color: #4CAF50;
+    border-color: #388E3C;
+    color: white;
+  }
+  
+  .option-button.wrong {
+    background-color: #F44336;
+    border-color: #D32F2F;
     color: white;
   }
   
