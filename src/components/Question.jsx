@@ -3,33 +3,26 @@ import React, { useState } from 'react';
 const Question = ({ country, options, onAnswer }) => {
   const [selectedAnswer, setSelectedAnswer] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const isCorrect = selectedAnswer === country.capital;
+  const handleButtonClick = (option) => {
+    setSelectedAnswer(option);
+    const isCorrect = option === country.capital;
     onAnswer(isCorrect);
-    setSelectedAnswer('');
   };
 
   return (
     <div>
       <h2>What is the capital of {country.name.common}?</h2>
-      <form onSubmit={handleSubmit}>
+      <div className="options-container">
         {options.map((option, index) => (
-          <div key={index}>
-            <label>
-              <input
-                type="radio"
-                name="capital"
-                value={option}
-                checked={selectedAnswer === option}
-                onChange={(e) => setSelectedAnswer(e.target.value)}
-              />
-              {option}
-            </label>
-          </div>
+          <button
+            key={index}
+            onClick={() => handleButtonClick(option)}
+            className={`option-button ${selectedAnswer === option ? 'selected' : ''}`}
+          >
+            {option}
+          </button>
         ))}
-        <button type="submit">Submit</button>
-      </form>
+      </div>
     </div>
   );
 };

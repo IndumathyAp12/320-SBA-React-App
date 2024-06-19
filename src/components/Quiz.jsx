@@ -57,7 +57,7 @@ const Quiz = () => {
   }
 
   if (quizQuestions.length === 0) {
-    return <p>No questions available</p>; // Handle edge case where there are no quiz questions
+    return <p>No questions available</p>; 
   }
 
   return (
@@ -65,11 +65,14 @@ const Quiz = () => {
       {showResult ? (
         <Result score={score} totalQuestions={quizQuestions.length} />
       ) : (
-        <Question
-          country={quizQuestions[currentQuestionIndex]}
-          options={quizQuestions[currentQuestionIndex].options}
-          onAnswer={handleAnswer}
-        />
+        <div>
+          <h3>Question {currentQuestionIndex + 1} of {quizQuestions.length}</h3>
+          <Question
+            country={quizQuestions[currentQuestionIndex]}
+            options={quizQuestions[currentQuestionIndex].options}
+            onAnswer={handleAnswer}
+          />
+        </div>
       )}
     </div>
   );

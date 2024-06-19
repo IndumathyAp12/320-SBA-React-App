@@ -8,11 +8,33 @@
     color: white;
   }
   
-  input {
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid #ccc;
+  .options-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .option-button {
+    padding: 10px 20px;
+    border: 2px solid #61dafb;
     border-radius: 5px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    color: black;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .option-button:hover {
+    background-color: #21a1f1;
+    color: white;
+  }
+  
+  .option-button.selected {
+    background-color: #61dafb;
+    border-color: #21a1f1;
+    color: white;
   }
   
   button {
@@ -27,11 +49,5 @@
   
   button:hover {
     background-color: #21a1f1;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 10px;
-    cursor: pointer;
   }
   
