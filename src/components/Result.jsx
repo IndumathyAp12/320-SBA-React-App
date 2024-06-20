@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Confetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
 
 const Result = ({ score, totalQuestions }) => {
-  const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const { width, height } = useWindowSize();
+  let message;
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  if (score >= 7) {
+    message = 'Congratulations!';
+  } else if (score >= 4) {
+    message = 'Good try!';
+  } else {
+    message = 'Better luck next time!';
+  }
 
   return (
     <div>
-      <Confetti width={windowSize.width} height={windowSize.height} />
-      <h2>Quiz Completed!</h2>
-      <p>Your score: {score} out of {totalQuestions}</p>
+      {score >= 7 && <Confetti width={width} height={height} />}
+      <h2>{message}</h2>
+      <h3>
+        You scored {score} out of {totalQuestions}
+      </h3>
     </div>
   );
 };

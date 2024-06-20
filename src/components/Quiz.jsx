@@ -1,4 +1,3 @@
-// Quiz.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Question from './Question';
@@ -22,7 +21,7 @@ const Quiz = () => {
     axios.get('https://restcountries.com/v3.1/all?fields=name,capital,currencies')
       .then(response => {
         const countriesData = response.data.filter(country => country.capital && country.capital.length > 0);
-        const shuffledCountries = shuffleArray(countriesData).slice(0, 10); // Limit to 10 questions
+        const shuffledCountries = shuffleArray(countriesData).slice(0, 10);
         const questions = shuffledCountries.map(country => ({
           ...country,
           options: generateOptions(country, countriesData)
@@ -62,11 +61,11 @@ const Quiz = () => {
     if (nextQuestionIndex < quizQuestions.length) {
       setTimeout(() => {
         setCurrentQuestionIndex(nextQuestionIndex);
-      }, 2000); // Delay for 2 seconds before proceeding
+      }, 2000); 
     } else {
       setTimeout(() => {
         setShowResult(true);
-      }, 2000); // Delay for 2 seconds before showing the result
+      }, 2000); 
     }
   };
 
