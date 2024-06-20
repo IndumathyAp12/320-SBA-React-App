@@ -1,156 +1,162 @@
 .App {
-    text-align: center;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    background-image: url('/worldmap.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
-  
-  .App-header {
-    background-color: #34bdc7;
-    padding: 15px;
-    border-radius: 10px;
-    color: rgb(12, 11, 11);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .form-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px;
-    width: 80%; 
-    max-width: 600px;
-  }
-  
-  .form-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .form-container label {
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .form-container input[type="text"] {
-    padding: 10px;
-    border: 2px solid #61dafb;
-    border-radius: 5px;
-  }
-  
-  .avatar-options {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .avatar-preview {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid #61dafb;
-    cursor: pointer;
-    transition: transform 0.3s;
-  }
-  
-  .avatar-preview:hover {
-    transform: scale(1.1);
-  }
-  
-  .options-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  
-  .option-button {
-    padding: 15px 25px;
-    border: 2px solid #61dafb;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    cursor: pointer;
-    color: black;
-    font-size: 16px;
-    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
-  }
-  
-  .option-button:hover {
-    background-color: #21a1f1;
-    color: white;
-    transform: scale(1.05);
-  }
-  
-  .option-button.correct {
-    background-color: #4CAF50;
-    border-color: #388E3C;
-    color: white;
-  }
-  
-  .option-button.wrong {
-    background-color: #F44336;
-    border-color: #D32F2F;
-    color: white;
-  }
-  
-  button {
-    padding: 12px 24px;
-    margin: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #116d86;
-    cursor: pointer;
-    color: black;
-    font-size: 16px;
-    transition: background-color 0.3s, transform 0.3s;
-  }
-  
-  button:hover {
-    background-color: #045588;
-    transform: scale(1.05);
-  }
-  
-  h3 {
-    margin-top: 20px;
-    color: #282c34;
-  }
-  
-  .result-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .question-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    width: 80%;
-    max-width: 600px;
-  }
-  
-  .player-info {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid #61dafb;
-  }
-  
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-image: url('/worldmap.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.App-header {
+  background-color: #34bdc7;
+  padding: 15px;
+  border-radius: 10px;
+  color: rgb(12, 11, 11);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form-container,
+.question-container {
+  background-color: rgba(255, 255, 255, 0.8); 
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  max-width: 600px;
+  margin: auto; 
+  margin-top: 10vh; 
+}
+
+.form-container {
+  margin-bottom: 20px;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-container label {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #116d86;
+}
+
+.form-container input[type="text"] {
+  padding: 12px;
+  border: 2px solid #61dafb;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.form-container input[type="text"]:focus {
+  outline: none;
+  border-color: #34bdc7;
+  box-shadow: 0 0 5px rgba(52, 189, 199, 0.5);
+}
+
+.avatar-options {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.avatar-preview {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #61dafb;
+  cursor: pointer;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.avatar-preview:hover {
+  transform: scale(1.15);
+  border-color: #34bdc7;
+}
+
+.options-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.option-button,
+button {
+  padding: 15px 25px;
+  border: 2px solid #61dafb;
+  border-radius: 5px;
+  cursor: pointer;
+  color: black;
+  font-size: 16px;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.option-button:hover,
+button:hover {
+  background-color: #21a1f1;
+  color: white;
+  transform: scale(1.05);
+}
+
+.option-button.correct {
+  background-color: #4CAF50;
+  border-color: #388E3C;
+  color: white;
+}
+
+.option-button.wrong {
+  background-color: #F44336;
+  border-color: #D32F2F;
+  color: white;
+}
+
+button {
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #116d86;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #045588;
+  transform: scale(1.05);
+}
+
+h3 {
+  margin-top: 20px;
+  color: #282c34;
+}
+
+.result-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #61dafb;
+}

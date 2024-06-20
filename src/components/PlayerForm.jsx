@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
+import avatar1 from './images/avatar1.png';  
+import avatar2 from './images/avatar2.png';  
+import avatar3 from './images/avatar3.png';  
+import avatar4 from './images/avatar4.png';
 
-const avatars = [
-  'avatar1.png',
-  'avatar2.png',
-  'avatar3.png',
-  'avatar4.png'
-];
+const avatars = [avatar1, avatar2, avatar3, avatar4];
 
 const PlayerForm = ({ onSubmit }) => {
   const [name, setName] = useState('');
@@ -35,14 +34,14 @@ const PlayerForm = ({ onSubmit }) => {
         <div>
           <label htmlFor="avatar">Choose Avatar:</label>
           <div className="avatar-options">
-            {avatars.map((avatarOption) => (
-              <label key={avatarOption}>
+            {avatars.map((avatarOption, index) => (
+              <label key={index}>
                 <input
                   type="radio"
                   name="avatar"
                   value={avatarOption}
                   checked={avatar === avatarOption}
-                  onChange={(e) => setAvatar(e.target.value)}
+                  onChange={() => setAvatar(avatarOption)}
                 />
                 <img src={avatarOption} alt="Avatar" className="avatar-preview" />
               </label>

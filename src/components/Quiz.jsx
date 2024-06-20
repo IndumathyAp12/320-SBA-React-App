@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Question from './Question';
 import Result from './Result';
-import PlayerForm from './PlayerForm';
 
-const Quiz = ({ questions }) => {
+const Quiz = ({ questions, fetchQuestions, player }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
-  const [player, setPlayer] = useState(null);
+
+  useEffect(() => {
+    setCurrentQuestionIndex(0);
+    setScore(0);
+    setShowResult(false);
+  }, [questions]);
 
   const handleAnswer = (isCorrect) => {
     if (isCorrect) {
@@ -27,13 +31,7 @@ const Quiz = ({ questions }) => {
   };
 
   const handleRestart = () => {
-    setScore(0);
-    setCurrentQuestionIndex(0);
-    setShowResult(false);
-  };
-
-  const handlePlayerSubmit = (playerData) => {
-    setPlayer(playerData);
+    fetchQuestions(); 
   };
 
   if (questions.length === 0) {
@@ -42,31 +40,25 @@ const Quiz = ({ questions }) => {
 
   return (
     <div className="App">
-      {!player ? (
-        <PlayerForm onSubmit={handlePlayerSubmit} />
+      {showResult ? (
+        <div className="result-container">
+          <Result score={score} totalQuestions={questions.length} />
+          <button onClick={handleRestart}>Restart Quiz</button>
+        </div>
       ) : (
-        <>
-          {showResult ? (
-            <div className="result-container">
-              <Result score={score} totalQuestions={questions.length} />
-              <button onClick={handleRestart}>Restart Quiz</button>
-            </div>
-          ) : (
-            <div className="question-container">
-              <div className="player-info">
-                <img src={player.avatar} alt="Avatar" className="avatar" />
-                <h2>{player.name}</h2>
-              </div>
-              <h3>Question {currentQuestionIndex + 1} of {questions.length}</h3>
-              <Question
-                key={currentQuestionIndex}
-                country={questions[currentQuestionIndex]}
-                options={questions[currentQuestionIndex].options}
-                onAnswer={handleAnswer}
-              />
-            </div>
-          )}
-        </>
+        <div className="question-container">
+          <div className="player-info">
+            <img src={player.avatar} alt="Avatar" className="avatar" />
+            <h2>{player.name}</h2>
+          </div>
+          <h3>Question {currentQuestionIndex + 1} of {questions.length}</h3>
+          <Question
+            key={currentQuestionIndex}
+            country={questions[currentQuestionIndex]}
+            options={questions[currentQuestionIndex].options}
+            onAnswer={handleAnswer}
+          />
+        </div>
       )}
     </div>
   );

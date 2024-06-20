@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const Question = ({ country, options, onAnswer }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isAnswered, setIsAnswered] = useState(false);
