@@ -1,3 +1,4 @@
+// Quiz.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Question from './Question';
@@ -57,14 +58,16 @@ const Quiz = () => {
       setScore(score + 1);
     }
 
-    setTimeout(() => {
-      const nextQuestionIndex = currentQuestionIndex + 1;
-      if (nextQuestionIndex < quizQuestions.length) {
+    const nextQuestionIndex = currentQuestionIndex + 1;
+    if (nextQuestionIndex < quizQuestions.length) {
+      setTimeout(() => {
         setCurrentQuestionIndex(nextQuestionIndex);
-      } else {
+      }, 2000); // Delay for 2 seconds before proceeding
+    } else {
+      setTimeout(() => {
         setShowResult(true);
-      }
-    }, 2000); // Delay for 2 seconds before proceeding
+      }, 2000); // Delay for 2 seconds before showing the result
+    }
   };
 
   const handleRestart = () => {

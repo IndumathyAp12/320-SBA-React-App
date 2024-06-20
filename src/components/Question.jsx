@@ -1,27 +1,40 @@
 import React, { useState } from 'react';
 
-const Question = ({ country, options, onAnswer, showNextQuestion }) => {
+const Question = ({ country, options, onAnswer }) => {
   const [selectedOption, setSelectedOption] = useState(null);
-  const [showFeedback, setShowFeedback] = useState(false);
+  const [isAnswered, setIsAnswered] = useState(false);
 
   const handleOptionClick = (option) => {
-    if (!showFeedback) {
-      setSelectedOption(option);
-      setShowFeedback(true);
-      const isCorrect = option === country.capital;
-      onAnswer(isCorrect);
-      setTimeout(showNextQuestion, 2000); 
-    }
+    if (isAnswered) return;
+
+    setSelectedOption(option);
+    setIsAnswered(true);
+
+    const isCorrect = option === country.capital[0];
+    onAnswer(isCorrect);
+
+    setTimeout(() => {
+      setSelectedOption(null);
+      setIsAnswered(false);
+    }, 2000); 
   };
 
   return (
     <div>
       <h2>What is the capital of {country.name.common}?</h2>
       <div className="options-container">
-        {options.map((option, index) => (
+        {options.map((option) => (
           <button
-            key={index}
-            className={`option-button ${showFeedback && option === country.capital ? 'correct' : ''} ${showFeedback && option === selectedOption && option !== country.capital ? 'wrong' : ''}`}
+            key={option}
+            className={`option-button ${
+              isAnswered
+                ? option === country.capital[0]
+                  ? 'correct'
+                  : option === selectedOption
+                  ? 'wrong'
+                  : ''
+                : ''
+            }`}
             onClick={() => handleOptionClick(option)}
           >
             {option}
