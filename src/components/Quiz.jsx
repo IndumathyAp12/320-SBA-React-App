@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Question from './Question';
 import Result from './Result';
+import PlayerForm from './PlayerForm';
 
 const Quiz = () => {
   const [quizQuestions, setQuizQuestions] = useState([]);
@@ -9,6 +10,7 @@ const Quiz = () => {
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [player, setPlayer] = useState(null);
 
   useEffect(() => {
     fetchQuizQuestions();
@@ -18,11 +20,11 @@ const Quiz = () => {
     setLoading(true);
     axios.get('https://restcountries.com/v3.1/all?fields=name,capital,currencies')
       .then(response => {
-        const countriesData = response.data;
-        const shuffledCountries = shuffleArray(countriesData).slice(0, 10); 
+        const countriesData = response.data.filter(country => country.capital && country.capital.length > 0);
+        const shuffledCountries = shuffleArray(countriesData).slice(0, 10); // Limit to 10 questions
         const questions = shuffledCountries.map(country => ({
           ...country,
-          options: shuffleArray([country.capital, ...getRandomCapitals(countriesData, country.capital)]).slice(0, 4)
+          options: generateOptions(country, countriesData)
         }));
         setQuizQuestions(questions);
         setLoading(false);
@@ -39,9 +41,15 @@ const Quiz = () => {
 
   const getRandomCapitals = (countriesData, currentCapital) => {
     const filteredCapitals = countriesData
-      .filter(country => country.capital && country.capital !== currentCapital)
-      .map(country => country.capital);
+      .filter(country => country.capital && country.capital[0] !== currentCapital)
+      .map(country => country.capital[0]);
     return shuffleArray(filteredCapitals).slice(0, 3);
+  };
+
+  const generateOptions = (country, countriesData) => {
+    const randomCapitals = getRandomCapitals(countriesData, country.capital[0]);
+    const optionsSet = new Set([country.capital[0], ...randomCapitals]);
+    return shuffleArray([...optionsSet]);
   };
 
   const handleAnswer = (isCorrect) => {
@@ -49,7 +57,6 @@ const Quiz = () => {
       setScore(score + 1);
     }
 
-    // Move to the next question or show result if last question
     setTimeout(() => {
       const nextQuestionIndex = currentQuestionIndex + 1;
       if (nextQuestionIndex < quizQuestions.length) {
@@ -57,7 +64,7 @@ const Quiz = () => {
       } else {
         setShowResult(true);
       }
-    }, 2000); 
+    }, 2000); // Delay for 2 seconds before proceeding
   };
 
   const handleRestart = () => {
@@ -67,33 +74,45 @@ const Quiz = () => {
     fetchQuizQuestions();
   };
 
+  const handlePlayerSubmit = (playerData) => {
+    setPlayer(playerData);
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
 
   if (quizQuestions.length === 0) {
-    return <p>No questions available</p>; 
+    return <p>No questions available</p>;
   }
 
   return (
-    <div>
-      {showResult ? (
-        <div>
-          <Result score={score} totalQuestions={quizQuestions.length} />
-          <button onClick={handleRestart}>Restart Quiz</button>
-        </div>
+    <div className="App">
+      {!player ? (
+        <PlayerForm onSubmit={handlePlayerSubmit} />
       ) : (
-        <div>
-          <h3>Question {currentQuestionIndex + 1} of {quizQuestions.length}</h3>
-          {currentQuestionIndex < quizQuestions.length && (
-            <Question
-              key={currentQuestionIndex}
-              country={quizQuestions[currentQuestionIndex]}
-              options={quizQuestions[currentQuestionIndex].options}
-              onAnswer={handleAnswer}
-            />
+        <>
+          {showResult ? (
+            <div className="result-container">
+              <Result score={score} totalQuestions={quizQuestions.length} />
+              <button onClick={handleRestart}>Restart Quiz</button>
+            </div>
+          ) : (
+            <div className="question-container">
+              <div className="player-info">
+                <img src={player.avatar} alt="Avatar" className="avatar" />
+                <h2>{player.name}</h2>
+              </div>
+              <h3>Question {currentQuestionIndex + 1} of {quizQuestions.length}</h3>
+              <Question
+                key={currentQuestionIndex}
+                country={quizQuestions[currentQuestionIndex]}
+                options={quizQuestions[currentQuestionIndex].options}
+                onAnswer={handleAnswer}
+              />
+            </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );
